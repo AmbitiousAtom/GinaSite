@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Valentine's Day</title>
+    <style>
+        :root{
+            --bg-start: #ffd6e0;
+            --bg-mid: #ff8fb1;
+            --bg-end: #ffe7b8;
+            --card: #c2578c;
+            --text: #fff7fb;
+            --accent: #cd9eaa;
+        }
+        body{
+            margin:0;
+            min-height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background: #ffd6e0;
+            font-family: "Dancing Script", cursive;
+            overflow-x: hidden;
+            padding: 24px 0;
+            cursor: none;
+        }
+        .card{
+            background: #ffe3ec;
+            color: #5b1a42;
+            padding: 28px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 780px;
+            width: 92vw;
+            box-shadow: 0 10px 30px rgba(204, 16, 110, 0.35);
+        }
+        h1{
+            margin: 0 0 10px;
+            font-size: 40px;
+            color: #ff1f5a;
+        }
+        p{
+            margin: 0 0 18px;
+            font-size: 22px;
+        }
+        .hearts{
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 12px 0 8px;
+        }
+        .hearts{ flex-wrap: nowrap; }
+        .photo-card{
+            width: 300px;
+            background: #f7c4d8;
+            padding: 10px 10px 14px;
+            border-radius: 16px;
+            box-shadow: 0 12px 26px rgba(0,0,0,.2);
+        }
+        .photo-card img{
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+        .between-heart{
+            font-size: 36px;
+            color: #ff1f5a;
+            align-self: center;
+        }
+        .confetti{
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 3;
+            overflow: hidden;
+        }
+        .confetti span{
+            position: absolute;
+            top: -40px;
+            font-size: 18px;
+            color: #ff2e63;
+            animation: fall linear infinite;
+        }
+        @keyframes fall{
+            to{ transform: translateY(120vh); }
+        }
+        .content{
+            position: relative;
+            z-index: 2;
+        }
+        .home{
+            margin-top: 14px;
+            display: inline-flex;
+            align-items:center;
+            justify-content:center;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: #f7c4d8;
+            color: #5b1a42;
+            text-decoration: none;
+            font-size: 16px;
+            border: 1px solid rgba(255,255,255,0.35);
+        }
+        footer{
+            margin-top: 16px;
+            font-size: 14px;
+            color: #5b1a42;
+        }
+        .letter-btn{
+            margin-top: 6px;
+            display: inline-flex;
+            align-items:center;
+            justify-content:center;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: #f7c4d8;
+            color: #5b1a42;
+            text-decoration: none;
+            font-size: 16px;
+            font-family: inherit;
+            font-weight: 400;
+            border: 1px solid rgba(255,255,255,0.6);
+            cursor: pointer;
+        }
+        .places{
+            margin-top: 18px;
+            padding-top: 6px;
+        }
+        .places h2{
+            margin: 0 0 10px;
+            font-size: 26px;
+            color: #5b1a42;
+        }
+        .place-buttons{
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .place-btn{
+            display: inline-flex;
+            align-items:center;
+            justify-content:center;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: #f7c4d8;
+            color: #5b1a42;
+            text-decoration: none;
+            font-size: 16px;
+            font-family: inherit;
+            border: 1px solid rgba(255,255,255,0.6);
+            cursor: pointer;
+        }
+        .music-btn{
+            margin-top: 10px;
+            display: inline-flex;
+            align-items:center;
+            justify-content:center;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: #f7c4d8;
+            color: #5b1a42;
+            text-decoration: none;
+            font-size: 16px;
+            font-family: inherit;
+            border: 1px solid rgba(255,255,255,0.6);
+            cursor: pointer;
+        }
+        .place-card{
+            margin: 12px auto 0;
+            max-width: 700px;
+            padding: 12px;
+            border-radius: 14px;
+            background: #fffaf0;
+            border: 1px solid rgba(0,0,0,0.08);
+            box-shadow: 0 10px 24px rgba(0,0,0,.12);
+            display: none;
+        }
+        .place-card.active{ display: block; }
+        .place-media{
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .place-media img{
+            width: 220px;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 3px solid #ffffff;
+            box-shadow: 0 8px 16px rgba(0,0,0,.15);
+            background: #f7f7f7;
+        }
+        .place-media iframe{
+            width: 360px;
+            height: 220px;
+            border: 0;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,.15);
+            background: #f7f7f7;
+        }
+        .place-label{
+            margin: 10px 0 0;
+            font-size: 16px;
+            color: #5b1a42;
+        }
+        .letter{
+            margin: 14px auto 0;
+            max-width: 520px;
+            padding: 18px 20px;
+            background: #fffaf0;
+            color: #5b1a42;
+            font-size: 18px;
+            line-height: 1.5;
+            border-radius: 12px;
+            box-shadow: 0 10px 24px rgba(0,0,0,.15);
+            border: 1px solid rgba(0,0,0,0.08);
+            position: relative;
+            display: none;
+        }
+        .letter::before,
+        .letter::after{
+            content: \"\";
+            position: absolute;
+            left: -10px;
+            right: -10px;
+            height: 18px;
+            background: repeating-linear-gradient(90deg, #fffaf0 0 14px, #f7e5c7 14px 18px);
+            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.08));
+        }
+        .letter::before{ top: -10px; clip-path: polygon(0 50%, 5% 0, 10% 70%, 15% 10%, 20% 60%, 25% 0, 30% 70%, 35% 10%, 40% 60%, 45% 0, 50% 70%, 55% 10%, 60% 60%, 65% 0, 70% 70%, 75% 10%, 80% 60%, 85% 0, 90% 70%, 95% 10%, 100% 60%, 100% 100%, 0 100%); }
+        .letter::after{ bottom: -10px; clip-path: polygon(0 40%, 5% 100%, 10% 30%, 15% 90%, 20% 40%, 25% 100%, 30% 30%, 35% 90%, 40% 40%, 45% 100%, 50% 30%, 55% 90%, 60% 40%, 65% 100%, 70% 30%, 75% 90%, 80% 40%, 85% 100%, 90% 30%, 95% 90%, 100% 40%, 100% 0, 0 0); }
+        .g-cursor{
+            position: fixed;
+            left: 0;
+            top: 0;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9999;
+            font-size: 28px;
+            font-weight: 700;
+            color: #ff1f5a;
+            text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+        }
+    </style>
+</head>
+<body>
+    <div class="confetti" id="confetti"></div>
+    <audio id="bg-music" src="Stargaze.mp3" autoplay loop></audio>
+    <div class="card content">
+        <h1>Happy Valentine's Day <br>My Beautiful Baby</h1>
+        <p>I already knew you would say YES because how can you resist! I wrote a little letter below for you. I hope you know that you
+            are so amazing and you deserve all the happiness in the world!
+        </p>
+        <div class="hearts">
+            <div class="photo-card">
+                <img src="IMG_3708.png" alt="Photo 1" />
+            </div>
+            <div class="between-heart">❤️</div>
+            <div class="photo-card">
+                <img src="IMG_7571.png" alt="Photo 2" />
+            </div>
+        </div>
+        <button class="letter-btn" id="letter-btn" type="button">Open Letter 💌</button>
+        <div class="letter" id="letter">
+            To Gina,<br>Ever since we met, you make me want to be with you more and more.
+            Our love for eachother grows everyday and I am so grateful because even though we are so far away we always make it work.
+            Our moments together are worth so much more and nothing can compare to the joy I get when I see you. I never ever want to
+            think about being without you because you are the first person I think of aftr waking up and the last person I think of before 
+            going to sleep. I wish i could hug you all the time and kiss you. You are my home when I get to hug you I feel so safe and loved.
+            You are the only girl I want for the rest of my life meri jaan. I cant put into words how much I love you aand think about you on a 
+            daily basis. You are the cutest little baby and I cant wait to have babies with you they will be so cute and we are gonna be such great parents.
+            I cant wait for that chapter of our life. I just want to make so many memories with you, anything we do together will be super fun. <br>
+            Also I had the idea of making this website before you had mentioned it on the phone the other day which was so funny because as you said it I 
+            was working on it. I really hope you like it!<br> Also, GOOD LUCK on your exam this week I know you will do really good on it you have
+            spent so much time learning everything and you are so talented and smart so you will do GREAT!<br> Babe, also I love how beautiful your body 
+            is I want to kiss every part of it. All the part you dont like I would do anything to be able to kiss. You are my stunning baby. You can pull
+            off anything you wear meri jaan. I love when you look into my eyes and do your cute little smile making me want to pick you up and spin you around 
+            I can't even put into words all the stuff I think about you and how much I love you, I just cant wait till we are together and get to spend all day 
+            together. You are my smart little cookie. MY pumpy umpy umpkin <br> I love you so so much Gina! <br><br> Love, Jaspreet
+
+        </div>
+        <div class="places">
+            <h2>Places We Met 🗺️</h2>
+            <div class="place-buttons">
+                <button class="place-btn" data-target="place-1">First Coffee Date ☕️</button>
+                <button class="place-btn" data-target="place-2">First Mall Date 👕</button>
+                <button class="place-btn" data-target="place-3">Sneak Out 😏</button>
+                <button class="place-btn" data-target="place-4">When We Started Dating ❤️</button>
+            </div>
+            <div class="place-card" id="place-1">
+                <div class="place-media">
+                    <img src="PicturesFebProject/IMG_3125.jpg" alt="Location 1" />
+                    <iframe
+                        title="Location 1 map"
+                        loading="lazy"
+                        src="https://maps.google.com/maps?q=3015%20Niagara%20Falls%20Blvd%2C%20Buffalo%2C%20NY%2014228&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                    ></iframe>
+                </div>
+                <p class="place-label">3015 Niagara Falls Blvd, Buffalo, NY 14228</p>
+            </div>
+            <div class="place-card" id="place-2">
+                <div class="place-media">
+                    <img src="PicturesFebProject/IMG_5186.jpg" alt="Location 2" />
+                    <iframe
+                        title="Location 2 map"
+                        loading="lazy"
+                        src="https://maps.google.com/maps?q=2002%20Annapolis%20Mall%20Rd%2C%20Annapolis%2C%20MD%2021401&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                    ></iframe>
+                </div>
+                <p class="place-label">2002 Annapolis Mall Rd, Annapolis, MD 21401</p>
+            </div>
+            <div class="place-card" id="place-3">
+                <div class="place-media">
+                    <img src="PicturesFebProject/de2b132d-4518-4dee-a4db-3aecac791fe8.JPG" alt="Location 3" />
+                    <iframe
+                        title="Location 3 map"
+                        loading="lazy"
+                        src="https://maps.google.com/maps?q=5495-4071%20Killian%20Rd%2C%20North%20Tonawanda%2C%20NY%2014120&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                    ></iframe>
+                </div>
+                <p class="place-label">5495-4071 Killian Rd, North Tonawanda, NY 14120</p>
+            </div>
+            <div class="place-card" id="place-4">
+                <div class="place-media">
+                    <img src="IMG_4971.JPG" alt="When We Started Dating" />
+                    <iframe
+                        title="When We Started Dating map"
+                        loading="lazy"
+                        src="https://maps.google.com/maps?q=5600%20McKinley%20Pkwy%2C%20Hamburg%2C%20NY%2014075&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                    ></iframe>
+                </div>
+                <p class="place-label">5600 McKinley Pkwy, Hamburg, NY 14075</p>
+            </div>
+        </div>
+        <button class="music-btn" id="music-btn" type="button">Play Music 🎵</button>
+        <a class="home" href="index.html">Home</a>
+        <footer>Made with love by Jaspreet</footer>
+    </div>
+    <script>
+        const confetti = document.getElementById("confetti");
+        const gCursor = document.createElement("div");
+        gCursor.className = "g-cursor";
+        gCursor.textContent = "G";
+        document.body.appendChild(gCursor);
+        const count = 120;
+        for (let i = 0; i < count; i += 1) {
+            const c = document.createElement("span");
+            c.textContent = "❤";
+            c.style.left = `${Math.random() * 100}vw`;
+            c.style.animationDuration = `${4 + Math.random() * 4}s`;
+            c.style.animationDelay = `${Math.random() * 2}s`;
+            c.style.fontSize = `${14 + Math.random() * 16}px`;
+            confetti.appendChild(c);
+        }
+        setTimeout(() => {
+            confetti.style.display = "none";
+        }, 7000);
+
+        document.addEventListener("mousemove", (event) => {
+            gCursor.style.left = `${event.clientX}px`;
+            gCursor.style.top = `${event.clientY}px`;
+        });
+
+        const letterBtn = document.getElementById("letter-btn");
+        const letter = document.getElementById("letter");
+        letterBtn.addEventListener("click", () => {
+            const isHidden = letter.style.display === "" || letter.style.display === "none";
+            letter.style.display = isHidden ? "block" : "none";
+            letterBtn.textContent = isHidden ? "Hide Letter" : "Open Letter";
+        });
+
+        const placeButtons = document.querySelectorAll(".place-btn");
+        const placeCards = document.querySelectorAll(".place-card");
+        placeButtons.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                const targetId = btn.getAttribute("data-target");
+                placeCards.forEach((card) => {
+                    card.classList.toggle("active", card.id === targetId);
+                });
+            });
+        });
+
+        const music = document.getElementById("bg-music");
+        const musicBtn = document.getElementById("music-btn");
+        musicBtn.addEventListener("click", () => {
+            if (music.paused) {
+                music.play();
+                musicBtn.textContent = "Pause Music ⏸️";
+            } else {
+                music.pause();
+                musicBtn.textContent = "Play Music 🎵";
+            }
+        });
+    </script>
+</body>
+</html>
